@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StarProfit — Магазин</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1120;color:white;font-family:Arial,sans-serif}
+header{padding:22px 18px;background:#141f36;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:25px;font-weight:bold;color:#ffd45c}
+.profile{color:#dce5fa}
+.hero{text-align:center;padding:35px 18px 25px}
+.hero h1{font-size:30px;margin:8px}
+.hero p{color:#aebbd4;line-height:1.5}
+.search{width:100%;padding:15px;border-radius:12px;border:1px solid #34415c;background:#17243d;color:white;font-size:16px}
+main{padding:15px;max-width:850px;margin:auto}
+.categories{display:flex;gap:10px;margin:18px 0;flex-wrap:wrap}
+.categories button{flex:1;min-width:100px;padding:13px;border:1px solid #35435e;border-radius:12px;background:#17243d;color:white;font-size:15px}
+.categories button.active{background:#ffd45c;color:#182033}
+h2{font-size:21px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.card{background:#17243d;border:1px solid #2d3d5b;border-radius:16px;padding:16px}
+.picture{font-size:42px;text-align:center;padding:15px}
+.card h3{margin:8px 0}
+.card p{font-size:13px;color:#aebbd4;min-height:30px}
+.price{color:#ffd45c;font-weight:bold;font-size:18px}
+.buy{width:100%;padding:12px;margin-top:12px;background:#ffd45c;border:0;border-radius:10px;font-weight:bold;color:#182033;font-size:15px}
+.notice{margin-top:22px;background:#17243d;padding:17px;border-radius:14px;color:#b8c6df;line-height:1.5;font-size:14px}
+footer{text-align:center;padding:25px;color:#8998b4;font-size:13px}
+button{cursor:pointer}
+@media(max-width:350px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">⭐ StarProfit</div>
+<div class="profile">👤 Профиль</div>
+</header>
+<section class="hero">
+<h1>Добро пожаловать!</h1>
+<p>Звёзды и подарки Telegram<br>в одном удобном магазине ❤️</p>
+</section>
+<main>
+<input class="search" id="search" placeholder="🔎 Найти товар..." oninput="render()">
+<div class="categories">
+<button class="active" onclick="category('all',this)">🛍 Всё</button>
+<button onclick="category('stars',this)">⭐ Звёзды</button>
+<button onclick="category('gifts',this)">🧸 Подарки</button>
+</div>
+<h2 id="heading">🛍 Наш каталог</h2>
+<div class="grid" id="products"></div>
+<div class="notice">
+💬 <b>Нужна помощь?</b><br>
+Наша команда поддержки поможет с покупкой и заказом.
+</div>
+</main>
+<footer>⭐ StarProfit © 2026<br>Покупать легко и удобно</footer>
+<script>
+const items=[
+{id:1,category:'stars',icon:'⭐',name:'Telegram Stars',description:'Пополнение звёзд Telegram',price:'Скоро'},
+{id:2,category:'gifts',icon:'🧸',name:'Плюшевый мишка',description:'Коллекционный подарок Telegram',price:'Скоро'},
+{id:3,category:'gifts',icon:'🌹',name:'Роза',description:'Подарок для близких',price:'Скоро'},
+{id:4,category:'gifts',icon:'💎',name:'Алмаз',description:'Коллекционный подарок Telegram',price:'Скоро'}
+];
+let selected='all';
+function category(type,button){
+selected=type;
+document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active'));
+button.classList.add('active');
+document.getElementById('heading').textContent=type==='stars'?'⭐ Telegram Stars':type==='gifts'?'🧸 Подарки':'🛍 Наш каталог';
+render();
+}
+function render(){
+const query=document.getElementById('search').value.toLowerCase();
+const filtered=items.filter(p=>(selected==='all'||p.category===selected)&&p.name.toLowerCase().includes(query));
+document.getElementById('products').innerHTML=filtered.length?filtered.map(p=>`
+<div class="card">
+<div class="picture">${p.icon}</div>
+<h3>${p.name}</h3>
+<p>${p.description}</p>
+<div class="price">${p.price}</div>
+<button class="buy" onclick="alert('Продажи скоро откроются! Спасибо за интерес к StarProfit ❤️')">Скоро в продаже</button>
+</div>`).join(''):'<p>Ничего не найдено.</p>';
+}
+render();
+</script>
+</body>
+</html>
